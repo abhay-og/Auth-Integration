@@ -6,7 +6,6 @@ from django.contrib.auth.tokens import PasswordResetTokenGenerator
 from account.utils import Util
 
 class UserRegistrationSerializer(serializers.ModelSerializer):
-  # We are writing this becoz we need confirm password field in our Registratin Request
   password2 = serializers.CharField(style={'input_type':'password'}, write_only=True)
   class Meta:
     model = User
@@ -15,7 +14,6 @@ class UserRegistrationSerializer(serializers.ModelSerializer):
       'password':{'write_only':True}
     }
 
-  # Validating Password and Confirm Password while Registration
   def validate(self, attrs):
     password = attrs.get('password')
     password2 = attrs.get('password2')
@@ -75,7 +73,6 @@ class SendPasswordResetEmailSerializer(serializers.Serializer):
         'body':body,
         'to_email':user.email
       }
-      # Util.send_email(data)
       return attrs
     else:
       raise serializers.ValidationError('You are not a Registered User')

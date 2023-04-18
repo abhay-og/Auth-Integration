@@ -4,9 +4,6 @@ from django.contrib.auth.models import BaseUserManager,AbstractBaseUser
 #  Custom User Manager
 class UserManager(BaseUserManager):
   def create_user(self, email, name, tc, password=None, password2=None):
-      """
-      Creates and saves a User with the given email, name, tc and password.
-      """
       if not email:
           raise ValueError('User must have an email address')
 
@@ -21,9 +18,6 @@ class UserManager(BaseUserManager):
       return user
 
   def create_superuser(self, email, name, tc, password=None):
-      """
-      Creates and saves a superuser with the given email, name, tc and password.
-      """
       user = self.create_user(
           email,
           password=password,
@@ -34,7 +28,6 @@ class UserManager(BaseUserManager):
       user.save(using=self._db)
       return user
 
-#  Custom User Model
 class User(AbstractBaseUser):
   email = models.EmailField(
       verbose_name='Email',
@@ -57,19 +50,13 @@ class User(AbstractBaseUser):
       return self.email
 
   def has_perm(self, perm, obj=None):
-      "Does the user have a specific permission?"
-      # Simplest possible answer: Yes, always
       return self.is_admin
 
   def has_module_perms(self, app_label):
-      "Does the user have permissions to view the app `app_label`?"
-      # Simplest possible answer: Yes, always
       return True
 
   @property
   def is_staff(self):
-      "Is the user a member of staff?"
-      # Simplest possible answer: All admins are staff
       return self.is_admin
 
 
